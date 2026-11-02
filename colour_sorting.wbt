@@ -1,0 +1,182 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/universal_robots/protos/UR5e.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/devices/robotiq/protos/Robotiq3fGripper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/conveyors/protos/ConveyorBelt.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/containers/protos/PlasticCrate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/solids/protos/SolidBox.proto"
+
+WorldInfo {
+  info [ "UR5e colour sorting: red, green and blue blocks into matching crates." ]
+  title "Colour Sorting"
+  basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      coulombFriction [ 1 ]
+      bounce 0
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.33 0.27 -0.91 1.82
+  position 0.9 2.6 2.1
+}
+TexturedBackground {
+  texture "factory"
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 12 12
+}
+
+# ---------- ROBOT ARM (base at the origin, 0.61 m pedestal height) ----------
+UR5e {
+  translation 0 0 0.61
+  controller "colour_sorter"
+  selfCollision FALSE
+  toolSlot [
+    Robotiq3fGripper {
+    }
+    Camera {
+      translation 0 0.04 0.12
+      rotation -0.1856 0.1856 0.9649 1.6065
+      name "camera"
+      fieldOfView 1.0
+      width 64
+      height 64
+    }
+  ]
+}
+
+# ---------- CONVEYOR: runs along +Y and ends at the pick point ----------
+ConveyorBelt {
+  translation 0.55 -4.95 0
+  rotation 0 0 1 1.5708
+  name "conveyor belt"
+  size 10 0.4 0.25
+  borderHeight 0
+  speed 0.15
+}
+Solid {
+  translation 0.55 0.07 0.265
+  name "stopper"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.15 0.15 0.15
+        roughness 0.6
+        metalness 0
+      }
+      geometry DEF STOPPER_BOX Box {
+        size 0.4 0.04 0.03
+      }
+    }
+  ]
+  boundingObject USE STOPPER_BOX
+}
+SolidBox {
+  translation 0.55 -0.50 0.30
+  name "red block 1"
+  size 0.05 0.05 0.10
+  appearance PBRAppearance {
+    baseColor 1 0 0
+    roughness 0.5
+    metalness 0
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+SolidBox {
+  translation 0.55 -2.10 0.30
+  name "blue block 1"
+  size 0.05 0.05 0.10
+  appearance PBRAppearance {
+    baseColor 0 0 1
+    roughness 0.5
+    metalness 0
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+SolidBox {
+  translation 0.55 -3.70 0.30
+  name "green block 1"
+  size 0.05 0.05 0.10
+  appearance PBRAppearance {
+    baseColor 0 1 0
+    roughness 0.5
+    metalness 0
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+SolidBox {
+  translation 0.55 -5.30 0.30
+  name "red block 2"
+  size 0.05 0.05 0.10
+  appearance PBRAppearance {
+    baseColor 1 0 0
+    roughness 0.5
+    metalness 0
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+SolidBox {
+  translation 0.55 -6.90 0.30
+  name "green block 2"
+  size 0.05 0.05 0.10
+  appearance PBRAppearance {
+    baseColor 0 1 0
+    roughness 0.5
+    metalness 0
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+SolidBox {
+  translation 0.55 -8.50 0.30
+  name "blue block 2"
+  size 0.05 0.05 0.10
+  appearance PBRAppearance {
+    baseColor 0 0 1
+    roughness 0.5
+    metalness 0
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+PlasticCrate {
+  translation 0 0.6 0
+  name "crate red"
+  size 0.4 0.4 0.25
+  color 1 0 0
+}
+PlasticCrate {
+  translation -0.6 0 0
+  name "crate green"
+  size 0.4 0.4 0.25
+  color 0 1 0
+}
+PlasticCrate {
+  translation 0 -0.6 0
+  name "crate blue"
+  size 0.4 0.4 0.25
+  color 0 0 1
+}
